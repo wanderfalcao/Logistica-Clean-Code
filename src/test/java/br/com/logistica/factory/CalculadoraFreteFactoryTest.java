@@ -14,22 +14,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CalculadoraFreteFactoryTest {
 
+    private static void execute() {
+        CalculadoraFreteFactory.criar(TipoFrete.EXPRESSO);
+    }
+
     @Test
     void testCriarFreteExpresso() {
         CalculadoraFrete calculadora = CalculadoraFreteFactory.criar(TipoFrete.EXPRESSO);
-        assertTrue(calculadora instanceof PromocaoPesoLeve);
+        assertInstanceOf(PromocaoPesoLeve.class, calculadora);
     }
 
     @Test
     void testCriarFretePadrao() {
         CalculadoraFrete calculadora = CalculadoraFreteFactory.criar(TipoFrete.PADRAO);
-        assertTrue(calculadora instanceof FretePadrao);
+        assertInstanceOf(FretePadrao.class, calculadora);
     }
 
     @Test
     void testCriarFreteEconomico() {
         CalculadoraFrete calculadora = CalculadoraFreteFactory.criar(TipoFrete.ECONOMICO);
-        assertTrue(calculadora instanceof FreteEconomico);
+        assertInstanceOf(FreteEconomico.class, calculadora);
     }
 
     @Test
@@ -49,9 +53,7 @@ class CalculadoraFreteFactoryTest {
         Supplier<CalculadoraFrete> original = registro.remove(TipoFrete.EXPRESSO);
 
         try {
-            var ex = assertThrows(DadosInvalidosException.class, () -> {
-                CalculadoraFreteFactory.criar(TipoFrete.EXPRESSO);
-            });
+            var ex = assertThrows(DadosInvalidosException.class, CalculadoraFreteFactoryTest::execute);
             assertTrue(ex.getMessage().contains("Estrategia nao existe"));
         } finally {
             // Restaura o valor original

@@ -30,8 +30,6 @@ class EtiquetaServiceTest {
     @Test
     void testGerarComEntregaNula() {
         EtiquetaService etiquetaService = new EtiquetaService();
-        assertThrows(DadosInvalidosException.class, () -> {
-            etiquetaService.gerar(null);
-        });
+        assertThrows(DadosInvalidosException.class, () -> etiquetaService.gerar(null));
     }
 }
