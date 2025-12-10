@@ -1,0 +1,243 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+' ===========================
+' PACOTES DE PRODUÇÃO
+' ===========================
+package "Domínio" {
+  entity Entrega <<record>> {
+    + Entrega(String, double, TipoFrete, String)
+    + peso(): double
+    + tipoFrete(): TipoFrete
+    + endereco(): String
+    + destinatario(): String
+  }
+
+  enum TipoFrete <<enumeration>> {
+    - TipoFrete()
+    + valueOf(String): TipoFrete
+    + values(): TipoFrete[]
+  }
+}
+
+package "Cálculo" {
+  interface CalculadoraFrete <<interface>> {
+    + calcular(Entrega): double
+  }
+
+  class FretePadrao {
+    + FretePadrao()
+    + calcular(Entrega): double
+  }
+
+  class FreteExpresso {
+    + FreteExpresso()
+    + calcular(Entrega): double
+  }
+
+  class FreteEconomico {
+    + FreteEconomico()
+    + calcular(Entrega): double
+  }
+
+  class CalculadoraFreteDecorator {
+    + CalculadoraFreteDecorator(CalculadoraFrete)
+  }
+
+  class PromocaoPesoLeve {
+    + PromocaoPesoLeve(CalculadoraFrete)
+    + calcular(Entrega): double
+  }
+}
+
+package "Apresentação" {
+  interface FormatadorEtiqueta <<interface>> {
+    + formatar(Entrega, double): String
+  }
+
+  class FormatadorTextoPadrao {
+    + FormatadorTextoPadrao()
+    + formatar(Entrega, double): String
+  }
+
+  class FormatadorJSON {
+    + FormatadorJSON()
+    + formatar(Entrega, double): String
+  }
+}
+
+package "Serviços / Factory" {
+  class EtiquetaService {
+    + EtiquetaService()
+    + EtiquetaService(FormatadorEtiqueta)
+    + gerar(Entrega): String
+  }
+
+  class CalculadoraFreteFactory {
+    + CalculadoraFreteFactory()
+    + criar(TipoFrete): CalculadoraFrete
+  }
+}
+
+package "Exceções" {
+  class LogisticaException {
+    + LogisticaException(String)
+  }
+
+  class DadosInvalidosException {
+    + DadosInvalidosException(String)
+  }
+}
+
+' ===========================
+' PACOTE DE TESTES
+' ===========================
+package "Testes" {
+  class CalculadoraFreteFactoryTest {
+    ~ testCriarFreteEconomico(): void
+    ~ testCriarFretePadrao(): void
+    ~ testCriarFreteExpresso(): void
+    ~ testCriarComTipoNulo(): void
+    ~ testCriarComEstrategiaInexistente(): void
+  }
+
+  class DadosInvalidosExceptionTest {
+    ~ testConstrutor(): void
+  }
+
+  class EntregaTest {
+    ~ naoDeveCriarEntregaComEnderecoNulo(): void
+    ~ naoDeveCriarEntregaComPesoInvalido(): void
+    ~ naoDeveCriarEntregaComTipoFreteNulo(): void
+    ~ naoDeveCriarEntregaComEnderecoVazio(): void
+    ~ naoDeveCriarEntregaComDestinatarioNulo(): void
+    ~ naoDeveCriarEntregaComDestinatarioVazio(): void
+  }
+
+  class EtiquetaServiceTest {
+    ~ testGerarComEntregaNula(): void
+    ~ testGerarComConstrutorPadrao(): void
+    ~ testGerarComFormatadorCustomizado(): void
+  }
+
+  class FormatadorTextoPadraoTest {
+    ~ testFormatar(): void
+  }
+
+  class FormatadorJsonTest {
+    ~ testFormatar(): void
+  }
+
+  class FreteEconomicoTest {
+    ~ testCalcularComValorNegativo(): void
+    ~ testCalcularComPesoAbaixoDaIsencao(): void
+    ~ testCalcularComPesoAcimaDaIsencao(): void
+  }
+
+  class FreteExpressoTest {
+    ~ deveCalcularFreteExpresso(): void
+  }
+
+  class FretePadraoTest {
+    ~ deveCalcularFretePadrao(): void
+  }
+
+  class PromocaoPesoLeveTest {
+    ~ deveAplicarPromocao(): void
+    ~ naoDeveAplicarPromocao(): void
+  }
+
+  class LogisticaTestSuite
+}
+
+' ===========================
+' HERANÇA / IMPLEMENTAÇÃO
+' ===========================
+
+' Domínio
+Entrega "1" --> "1" TipoFrete
+
+' Cálculo
+CalculadoraFrete <|.. FretePadrao
+CalculadoraFrete <|.. FreteExpresso
+CalculadoraFrete <|.. FreteEconomico
+CalculadoraFrete <|.. CalculadoraFreteDecorator
+CalculadoraFreteDecorator <|-- PromocaoPesoLeve
+
+' Apresentação
+FormatadorEtiqueta <|.. FormatadorTextoPadrao
+FormatadorEtiqueta <|.. FormatadorJSON
+
+' Exceções
+LogisticaException <|-- DadosInvalidosException
+
+' ===========================
+' ASSOCIAÇÕES (USO)
+' ===========================
+
+EtiquetaService --> Entrega
+EtiquetaService --> FormatadorEtiqueta
+EtiquetaService --> CalculadoraFreteFactory
+
+CalculadoraFreteFactory --> TipoFrete
+CalculadoraFreteFactory --> CalculadoraFrete
+
+FormatadorTextoPadrao --> Entrega
+FormatadorJSON --> Entrega
+
+PromocaoPesoLeve --> CalculadoraFrete
+
+' ===========================
+' RELAÇÕES DE TESTE (DEPENDEM DE)
+' ===========================
+
+CalculadoraFreteFactoryTest ..> CalculadoraFreteFactory
+CalculadoraFreteFactoryTest ..> TipoFrete
+CalculadoraFreteFactoryTest ..> CalculadoraFrete
+
+DadosInvalidosExceptionTest ..> DadosInvalidosException
+DadosInvalidosExceptionTest ..> LogisticaException
+
+EntregaTest ..> Entrega
+EntregaTest ..> TipoFrete
+EntregaTest ..> DadosInvalidosException
+
+EtiquetaServiceTest ..> EtiquetaService
+EtiquetaServiceTest ..> Entrega
+EtiquetaServiceTest ..> FormatadorEtiqueta
+EtiquetaServiceTest ..> CalculadoraFreteFactory
+
+FormatadorTextoPadraoTest ..> FormatadorTextoPadrao
+FormatadorTextoPadraoTest ..> Entrega
+
+FormatadorJsonTest ..> FormatadorJSON
+FormatadorJsonTest ..> Entrega
+
+FretePadraoTest ..> FretePadrao
+FretePadraoTest ..> Entrega
+
+FreteExpressoTest ..> FreteExpresso
+FreteExpressoTest ..> Entrega
+
+FreteEconomicoTest ..> FreteEconomico
+FreteEconomicoTest ..> Entrega
+
+PromocaoPesoLeveTest ..> PromocaoPesoLeve
+PromocaoPesoLeveTest ..> CalculadoraFrete
+PromocaoPesoLeveTest ..> Entrega
+
+LogisticaTestSuite ..> CalculadoraFreteFactoryTest
+LogisticaTestSuite ..> DadosInvalidosExceptionTest
+LogisticaTestSuite ..> EntregaTest
+LogisticaTestSuite ..> EtiquetaServiceTest
+LogisticaTestSuite ..> FormatadorTextoPadraoTest
+LogisticaTestSuite ..> FormatadorJsonTest
+LogisticaTestSuite ..> FreteEconomicoTest
+LogisticaTestSuite ..> FreteExpressoTest
+LogisticaTestSuite ..> FretePadraoTest
+LogisticaTestSuite ..> PromocaoPesoLeveTest
+
+@enduml

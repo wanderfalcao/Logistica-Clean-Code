@@ -33,6 +33,13 @@ O projeto está organizado nos seguintes pacotes:
 - **`br.com.logistica.formatacao`**: Contém as diferentes formas de formatar a etiqueta.
 - **`br.com.logistica.exception`**: Contém as exceções customizadas.
 
+## 📊 Diagrama de Classes
+
+Abaixo está o diagrama de classes que representa o domínio, as estratégias de cálculo de frete,
+os formatadores de etiqueta, os serviços, exceções e os testes que cobrem o sistema:
+
+![Diagrama de classes da LogisticaCleanCode](Doc/Diagram/logistica-diagrama-classes.png)
+
 ## 🧪 Testes
 
 A qualidade e a robustez do código são garantidas por uma suíte de testes unitários utilizando **JUnit 5**. Os testes estão localizados em `src/test/java` e seguem a mesma estrutura de pacotes do código-fonte.
