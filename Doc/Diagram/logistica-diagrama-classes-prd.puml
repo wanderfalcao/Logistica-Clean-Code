@@ -9,9 +9,6 @@ skinparam roundcorner 12
 skinparam BackgroundColor #0d1117
 skinparam ArrowColor #9ca3af
 
-skinparam defaultFontName "JetBrains Mono"
-skinparam defaultFontSize 11
-
 ' ===== Pacotes =====
 skinparam package {
   BackgroundColor #020617
@@ -23,23 +20,23 @@ skinparam package {
 ' ===== Classes =====
 skinparam class {
   BackgroundColor #111827
-  BorderColor #bbbbbb
-  FontColor #e5e7eb
+  BorderColor #9ca3af
+  FontColor #e5e7eb               ' Nome da classe
 }
-skinparam ClassAttributeFontColor #e5e7eb
+skinparam ClassAttributeFontColor #e5e7eb   ' Métodos/atributos
 
 ' ===== Interfaces =====
 skinparam interface {
-  BackgroundColor #111827
-  BorderColor #61dafb
-  FontColor #e5e7eb
+  BackgroundColor #020617
+  BorderColor #38bdf8
+  FontColor #e5e7eb                ' Nome da interface
 }
 skinparam InterfaceAttributeFontColor #e5e7eb
 
 ' ===== Records (entity) =====
 skinparam entity {
   BackgroundColor #111827
-  BorderColor #fbbf24
+  BorderColor #facc15
   FontColor #e5e7eb
 }
 skinparam EntityAttributeFontColor #e5e7eb
@@ -58,6 +55,7 @@ skinparam classStereotypeFontColor #e5e7eb
 skinparam interfaceStereotypeFontColor #e5e7eb
 skinparam enumStereotypeFontColor #e5e7eb
 skinparam entityStereotypeFontColor #e5e7eb
+skinparam stereotypeFontStyle plain
 
 ' ===========================
 ' PACOTES DE PRODUÇÃO
@@ -148,74 +146,6 @@ package "Exceções" {
 }
 
 ' ===========================
-' PACOTE DE TESTES
-' ===========================
-package "Testes" {
-  skinparam class {
-    BackgroundColor #111827
-    BorderColor #f97316
-    FontColor #e5e7eb
-  }
-  skinparam ClassAttributeFontColor #e5e7eb
-
-  class CalculadoraFreteFactoryTest {
-    ~ testCriarFreteEconomico(): void
-    ~ testCriarFretePadrao(): void
-    ~ testCriarFreteExpresso(): void
-    ~ testCriarComTipoNulo(): void
-    ~ testCriarComEstrategiaInexistente(): void
-  }
-
-  class DadosInvalidosExceptionTest {
-    ~ testConstrutor(): void
-  }
-
-  class EntregaTest {
-    ~ naoDeveCriarEntregaComEnderecoNulo(): void
-    ~ naoDeveCriarEntregaComPesoInvalido(): void
-    ~ naoDeveCriarEntregaComTipoFreteNulo(): void
-    ~ naoDeveCriarEntregaComEnderecoVazio(): void
-    ~ naoDeveCriarEntregaComDestinatarioNulo(): void
-    ~ naoDeveCriarEntregaComDestinatarioVazio(): void
-  }
-
-  class EtiquetaServiceTest {
-    ~ testGerarComEntregaNula(): void
-    ~ testGerarComConstrutorPadrao(): void
-    ~ testGerarComFormatadorCustomizado(): void
-  }
-
-  class FormatadorTextoPadraoTest {
-    ~ testFormatar(): void
-  }
-
-  class FormatadorJsonTest {
-    ~ testFormatar(): void
-  }
-
-  class FreteEconomicoTest {
-    ~ testCalcularComValorNegativo(): void
-    ~ testCalcularComPesoAbaixoDaIsencao(): void
-    ~ testCalcularComPesoAcimaDaIsencao(): void
-  }
-
-  class FreteExpressoTest {
-    ~ deveCalcularFreteExpresso(): void
-  }
-
-  class FretePadraoTest {
-    ~ deveCalcularFretePadrao(): void
-  }
-
-  class PromocaoPesoLeveTest {
-    ~ deveAplicarPromocao(): void
-    ~ naoDeveAplicarPromocao(): void
-  }
-
-  class LogisticaTestSuite
-}
-
-' ===========================
 ' HERANÇA / IMPLEMENTAÇÃO
 ' ===========================
 
@@ -251,55 +181,5 @@ FormatadorTextoPadrao --> Entrega
 FormatadorJSON --> Entrega
 
 PromocaoPesoLeve --> CalculadoraFrete
-
-' ===========================
-' RELAÇÕES DE TESTE (DEPENDEM DE)
-' ===========================
-
-CalculadoraFreteFactoryTest ..> CalculadoraFreteFactory
-CalculadoraFreteFactoryTest ..> TipoFrete
-CalculadoraFreteFactoryTest ..> CalculadoraFrete
-
-DadosInvalidosExceptionTest ..> DadosInvalidosException
-DadosInvalidosExceptionTest ..> LogisticaException
-
-EntregaTest ..> Entrega
-EntregaTest ..> TipoFrete
-EntregaTest ..> DadosInvalidosException
-
-EtiquetaServiceTest ..> EtiquetaService
-EtiquetaServiceTest ..> Entrega
-EtiquetaServiceTest ..> FormatadorEtiqueta
-EtiquetaServiceTest ..> CalculadoraFreteFactory
-
-FormatadorTextoPadraoTest ..> FormatadorTextoPadrao
-FormatadorTextoPadraoTest ..> Entrega
-
-FormatadorJsonTest ..> FormatadorJSON
-FormatadorJsonTest ..> Entrega
-
-FretePadraoTest ..> FretePadrao
-FretePadraoTest ..> Entrega
-
-FreteExpressoTest ..> FreteExpresso
-FreteExpressoTest ..> Entrega
-
-FreteEconomicoTest ..> FreteEconomico
-FreteEconomicoTest ..> Entrega
-
-PromocaoPesoLeveTest ..> PromocaoPesoLeve
-PromocaoPesoLeveTest ..> CalculadoraFrete
-PromocaoPesoLeveTest ..> Entrega
-
-LogisticaTestSuite ..> CalculadoraFreteFactoryTest
-LogisticaTestSuite ..> DadosInvalidosExceptionTest
-LogisticaTestSuite ..> EntregaTest
-LogisticaTestSuite ..> EtiquetaServiceTest
-LogisticaTestSuite ..> FormatadorTextoPadraoTest
-LogisticaTestSuite ..> FormatadorJsonTest
-LogisticaTestSuite ..> FreteEconomicoTest
-LogisticaTestSuite ..> FreteExpressoTest
-LogisticaTestSuite ..> FretePadraoTest
-LogisticaTestSuite ..> PromocaoPesoLeveTest
 
 @enduml
