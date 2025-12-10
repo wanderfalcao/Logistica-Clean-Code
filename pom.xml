@@ -10,6 +10,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.0</junit.version>
         <jacoco.version>0.8.12</jacoco.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <junit-platform-suite.version>1.10.0</junit-platform-suite.version>
+        <jacoco.instruction.coverage.minimum>0.95</jacoco.instruction.coverage.minimum>
+        <jacoco.branch.coverage.minimum>0.95</jacoco.branch.coverage.minimum>
     </properties>
 
     <dependencies>
@@ -28,7 +32,7 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>1.10.0</version>
+            <version>${junit-platform-suite.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -38,7 +42,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -75,12 +79,12 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.95</minimum>
+                                            <minimum>${jacoco.instruction.coverage.minimum}</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.95</minimum>
+                                            <minimum>${jacoco.branch.coverage.minimum}</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
