@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permissão necessária para a ação de envio de dependências
 
     steps:
     - name: Checkout repository
