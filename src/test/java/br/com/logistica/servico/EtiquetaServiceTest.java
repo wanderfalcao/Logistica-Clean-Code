@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class EtiquetaServiceTest {
 
     @Test
-    void testGerarComConstrutorPadrao() {
+    void deveGerarEtiquetaComFormatadorPadrao() {
         EtiquetaService etiquetaService = new EtiquetaService();
         Entrega entrega = new Entrega("Endereco", 10, TipoFrete.PADRAO, "Destinatario");
         String etiqueta = etiquetaService.gerar(entrega);
@@ -19,7 +19,7 @@ class EtiquetaServiceTest {
     }
 
     @Test
-    void testGerarComFormatadorCustomizado() {
+    void deveGerarEtiquetaComFormatadorCustomizado() {
         FormatadorEtiqueta formatador = (entrega, valor) -> "FORMATO CUSTOMIZADO";
         EtiquetaService etiquetaService = new EtiquetaService(formatador);
         Entrega entrega = new Entrega("Endereco", 10, TipoFrete.PADRAO, "Destinatario");
@@ -28,7 +28,7 @@ class EtiquetaServiceTest {
     }
 
     @Test
-    void testGerarComEntregaNula() {
+    void naoDeveGerarEtiquetaComEntregaNula() {
         EtiquetaService etiquetaService = new EtiquetaService();
         assertThrows(DadosInvalidosException.class, () -> etiquetaService.gerar(null));
     }

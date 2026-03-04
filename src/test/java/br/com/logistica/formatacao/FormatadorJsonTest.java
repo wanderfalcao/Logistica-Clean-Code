@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FormatadorJsonTest {
 
     @Test
-    void testFormatar() {
+    void deveFormatarEtiquetaEmJson() {
         FormatadorJSON formatador = new FormatadorJSON();
         Entrega entrega = new Entrega("Endereco", 10, TipoFrete.PADRAO, "Destinatario");
         String json = formatador.formatar(entrega, 12.0);

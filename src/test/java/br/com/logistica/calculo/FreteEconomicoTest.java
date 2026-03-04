@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FreteEconomicoTest {
 
     @Test
-    void testCalcularComPesoAbaixoDaIsencao() {
+    void deveRetornarZeroParaPesoAbaixoDaIsencao() {
         FreteEconomico freteEconomico = new FreteEconomico();
         Entrega entrega = new Entrega("Endereco", 1.5, TipoFrete.ECONOMICO, "Destinatario");
         double valor = freteEconomico.calcular(entrega);
@@ -16,7 +16,15 @@ class FreteEconomicoTest {
     }
 
     @Test
-    void testCalcularComPesoAcimaDaIsencao() {
+    void deveRetornarZeroParaPesoIgualAoLimiteDeIsencao() {
+        FreteEconomico freteEconomico = new FreteEconomico();
+        Entrega entrega = new Entrega("Endereco", 2.0, TipoFrete.ECONOMICO, "Destinatario");
+        double valor = freteEconomico.calcular(entrega);
+        assertEquals(0.0, valor, 0.01);
+    }
+
+    @Test
+    void deveCalcularFreteParaPesoAcimaDaIsencao() {
         FreteEconomico freteEconomico = new FreteEconomico();
         Entrega entrega = new Entrega("Endereco", 10, TipoFrete.ECONOMICO, "Destinatario");
         double valor = freteEconomico.calcular(entrega);
@@ -24,7 +32,7 @@ class FreteEconomicoTest {
     }
 
     @Test
-    void testCalcularComValorNegativo() {
+    void deveRetornarZeroQuandoCalculoResultarNegativo() {
         FreteEconomico freteEconomico = new FreteEconomico();
         Entrega entrega = new Entrega("Endereco", 4, TipoFrete.ECONOMICO, "Destinatario");
         double valor = freteEconomico.calcular(entrega);

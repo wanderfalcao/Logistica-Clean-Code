@@ -10,7 +10,7 @@ public class FormatadorTextoPadrao implements FormatadorEtiqueta {
                 entrega.destinatario(), 
                 entrega.endereco(), 
                 entrega.tipoFrete(), 
-                NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format(valorFrete) 
+                NumberFormat.getCurrencyInstance(Locale.of("pt", "BR")).format(valorFrete)
         ); 
     } 
 } 

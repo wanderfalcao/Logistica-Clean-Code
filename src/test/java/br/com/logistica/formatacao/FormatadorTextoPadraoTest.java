@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class FormatadorTextoPadraoTest {
 
     @Test
-    void testFormatar() {
+    void deveFormatarEtiquetaEmTextoPadrao() {
         FormatadorTextoPadrao formatador = new FormatadorTextoPadrao();
         Entrega entrega = new Entrega("Endereco", 10, TipoFrete.PADRAO, "Destinatario");
         String texto = formatador.formatar(entrega, 12.0);
